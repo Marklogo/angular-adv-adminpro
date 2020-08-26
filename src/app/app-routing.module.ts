@@ -19,5 +19,6 @@ const routes: Routes = [
     PagesRoutingModule
   ],
   exports: [RouterModule]
+  
 })
 export class AppRoutingModule { }
