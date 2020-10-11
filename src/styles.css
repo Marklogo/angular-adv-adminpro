@@ -4,6 +4,10 @@
     cursor: pointer;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 #google-btn {
     align-items: center;
     display: flex;
@@ -14,4 +18,33 @@
 .img-avatar {
     width:  200px;
     height: 200px;
+}
+
+.w100 {
+    width: 100px;
+}
+
+
+.w140 {
+    min-width: 130px;
+    width: 140px;
+}
+
+.avatar {
+    border-radius: 100%;
+    width: 30px;
+}
+
+.fondo-modal-imagen{
+    background-color: rgba(0, 0, 0, 0.40);
+    position: fixed;
+    left: 0px;
+    height: 100%;
+    top: 0px;
+    width: 100%;
+    z-index:999 ;
+}
+
+.oculto{
+    display: none;
 }

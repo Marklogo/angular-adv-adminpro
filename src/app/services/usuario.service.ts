@@ -4,7 +4,7 @@ import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment } from '../../environments/environment.prod';
 
 import { LoginForm } from '../interfaces/login-form.interface';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, delay } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
@@ -27,6 +27,14 @@ export class UsuarioService {
     this.googleInit();
   }
 
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token,
+      }
+    }
+  }
+
   get token(){
     return localStorage.getItem('token') || '';
   }
@@ -35,6 +43,22 @@ export class UsuarioService {
     return this.usuario.uid;
   }
 
+  cargarUsuarios(desde: number=0){
+    const url=`${base_url}/usuarios/?desde=${desde}`
+    return this.http.get<{total:number, usuarios:Usuario[]}>(url,this.headers)
+    .pipe(
+      map(resp =>{
+        const usuarios = resp.usuarios.map(
+          user => new Usuario(user.nombre, user.email,'',
+                              user.img,user.google,user.role,
+                              user.uid));
+        return {
+          total: resp.total,
+          usuarios
+        }
+      })
+    )
+  } 
 
   validarToken(): Observable<boolean> {
     return this.http
@@ -63,15 +87,23 @@ export class UsuarioService {
   }
 
   actualizarUsuario(data:{nombre:string,email:string, role:string}){
-    data = {...data,
-            role: this.usuario.role 
-          };
-    return this.http.put(`${base_url}/usuarios/${this.uid}`,data,{
-      headers: {
-        'x-token': this.token,
-      },
-    });
-    
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+    return this.http.put(`${base_url}/usuarios/${this.uid}`,data,this.headers);
+  }
+
+  guardarUsuario(usuario:Usuario){
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`,usuario,this.headers);
+  }
+
+
+
+
+  eliminarUsuario(usuario){
+    const url=`${base_url}/usuarios/${usuario.uid}`
+    return this.http.delete(url,this.headers);
   }
 
 

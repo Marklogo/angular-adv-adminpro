@@ -10,6 +10,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 
 
@@ -26,6 +27,9 @@ const routes: Routes = [
           { path: 'progress', component:ProgressComponent, data:{titulo:'ProgressBar'} },
           { path: 'rxjs', component:RxjsComponent, data:{titulo:'Rjxs'} },
           { path: 'perfil', component:PerfilComponent, data:{titulo:'Perfil'} },
+
+          //Mantenimientos
+          { path: 'usuarios', component:UsuariosComponent, data:{titulo:'Usuarios'} },
         ]
       }
 ];
